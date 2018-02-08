@@ -6,9 +6,10 @@ This repo is a collection of scripts to load and transform article and talk data
 ## How to setup
 Requirements: python 3.5, spark 2.2, docker, docker-compose
 
-Install python packages:
+Install python packages and pbzip2:
 ```
 pip install luigi pyspark gensim
+sudo apt-get install pbzip2
 ```
 
 Start up the mongodb container:
@@ -33,3 +34,8 @@ Run the script:
 python wiki_users.py
 ```
 
+## How it works
+### Articles and talks
+A luigi pipeline is set up to download wikipedia XML page dumps and language link SQL dumps. They are transformed and combined using PySpark and then loaded into MongoDB. 
+### Users
+wiki_users.py is set up to run continuously, fetching users from the wikipedia API and updating user records in MongoDB. If the script is stopped abruptly, it will continue from the last updated user in the database on the next run.
