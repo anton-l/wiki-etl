@@ -37,5 +37,28 @@ python wiki_users.py
 ## How it works
 ### Articles and talks
 A luigi pipeline is set up to download wikipedia XML page dumps and language link SQL dumps. They are transformed and combined using PySpark and then loaded into MongoDB. 
+Fields of the created collection wikipedia.en_articles (wikipedia.ru_articles):
+- id (int) // wikipedia page ID
+- title (str)
+- text (str) // text in wiki markup
+- sections (str[]) // cleaned article sections
+- timestamp (datetime)
+- redirects (str[]) // titles of the pages that redirect to the article
+- translation_id (int) // ID of the page in another language
+
 ### Users
 wiki_users.py is set up to run continuously, fetching users from the wikipedia API and updating user records in MongoDB. If the script is stopped abruptly, it will continue from the last updated user in the database on the next run.
+API docs: https://www.mediawiki.org/wiki/API:Allusers
+Fields:
+- userid
+- name
+- blockid
+- blockedby
+- blockedbyid
+- blockedtimestamp
+- blockreason
+- blockexpiry
+- editcount
+- registration
+- groups
+- updated // added field to track progress
